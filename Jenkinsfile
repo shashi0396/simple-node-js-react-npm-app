@@ -1,5 +1,10 @@
 pipeline {
-    agent any
+    agent {
+        docker {
+            image 'node:lts-buster-slim'
+            args '-p 3004:3004'
+        }
+    }
     stages {
         stage('Build') {
             steps {
