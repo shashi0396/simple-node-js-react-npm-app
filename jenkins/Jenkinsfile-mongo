@@ -1,0 +1,31 @@
+pipeline {
+    agent any
+
+    environment {
+        DOCKER_REGISTRY_CREDENTIALS = credentials('docker-hub-credentials')
+        MONGO_USERNAME = 'ati'
+        MONGO_PASSWORD = 'ati1234'
+    }
+
+    stages {
+        stage('Pull and Build Containers') {
+            steps {
+                script {
+                    // Pull latest images from Docker Hub
+                    docker.withRegistry('https://registry.hub.docker.com', 'docker-hub-credentials') {
+                        docker.pull('postgres:latest')
+                        docker.pull('redis:latest')
+                        docker.pull('mongo-express:latest')
+                        docker.pull('mongo:latest')
+                    }
+
+                    // Build local containers
+                    docker.build('my-postgres', './postgres')
+                    docker.build('my-redis', './redis')
+                    docker.build('my-mongo-express', './mongo-express')
+                    docker.build('my-mongo', './mongo')
+                }
+            }
+        }
+    }
+}
