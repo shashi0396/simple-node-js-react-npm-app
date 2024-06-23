@@ -1,11 +1,5 @@
 pipeline {
-    agent {
-        any
-    }
-    environment {
-        CI = 'true'
-        PATH = "/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:$PATH"
-    }
+    agent any
     stages {
         stage('Build') {
             steps {
