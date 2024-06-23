@@ -6,15 +6,26 @@ services:
     environment:
       MONGO_INITDB_ROOT_USERNAME: ati
       MONGO_INITDB_ROOT_PASSWORD: ati1234
+    healthcheck:
+      test: "echo 'db.runCommand(\"ping\").ok' | mongo localhost:27017/test --quiet"
+      interval: 30s
+      timeout: 10s
+      retries: 5
     ports:
       - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
 
   mongo-express:
     image: mongo-express:latest
+    depends_on:
+      mongo:
+        condition: service_healthy
     environment:
       ME_CONFIG_MONGODB_ADMINUSERNAME: ati
       ME_CONFIG_MONGODB_ADMINPASSWORD: ati1234
       ME_CONFIG_MONGODB_SERVER: mongo
+      ME_CONFIG_MONGODB_ENABLE_ADMIN: "true"
     ports:
       - "8081:8081"
 
@@ -29,4 +40,7 @@ services:
       POSTGRES_USER: ati
       POSTGRES_PASSWORD: ati1234
     ports:
-      - "5432:5432"
+      - "5433:5432"
+
+volumes:
+  mongo-data:
