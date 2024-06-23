@@ -1,18 +1,32 @@
 version: '3'
+
 services:
   mongo:
-    image: my-mongo
+    image: mongo:latest
     environment:
-      MONGO_INITDB_ROOT_USERNAME: ${MONGO_USERNAME}
-      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_PASSWORD}
+      MONGO_INITDB_ROOT_USERNAME: ati
+      MONGO_INITDB_ROOT_PASSWORD: ati1234
     ports:
       - "27017:27017"
 
   mongo-express:
-    image: my-mongo-express
+    image: mongo-express:latest
     environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: ati
+      ME_CONFIG_MONGODB_ADMINPASSWORD: ati1234
       ME_CONFIG_MONGODB_SERVER: mongo
-      ME_CONFIG_MONGODB_ADMINUSERNAME: ${MONGO_USERNAME}
-      ME_CONFIG_MONGODB_ADMINPASSWORD: ${MONGO_PASSWORD}
     ports:
       - "8081:8081"
+
+  redis:
+    image: redis:latest
+    ports:
+      - "6379:6379"
+
+  postgres:
+    image: postgres:latest
+    environment:
+      POSTGRES_USER: ati
+      POSTGRES_PASSWORD: ati1234
+    ports:
+      - "5432:5432"
