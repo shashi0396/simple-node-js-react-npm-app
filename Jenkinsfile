@@ -7,6 +7,7 @@ pipeline {
     }
     environment {
         CI = 'true'
+        PATH+EXTRA = "/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
     }
     stages {
         stage('Build') {
