@@ -1,11 +1,14 @@
 pipeline {
-    agent {
-        docker {
-            image 'docker/compose:1.29.2'
-        }
-    }
+    agent any
 
     stages {
+        stage('Install Docker Compose') {
+            steps {
+                sh 'curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o docker-compose'
+                sh 'chmod +x docker-compose'
+                sh 'sudo mv docker-compose /usr/local/bin/'
+            }
+        }
         stage('Pull and Build Images') {
             steps {
                 dir('docker-compose.yml') {
