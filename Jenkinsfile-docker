@@ -9,13 +9,11 @@ pipeline {
                 sh 'sudo mv docker-compose /usr/local/bin/'
             }
         }
-        stage('Pull and Build Images') {
+        stage('Run Docker Compose') {
             steps {
-                dir('docker-compose.yml') {
-                    sh 'docker-compose pull'
-                    sh 'docker-compose build'
-                }
+                sh 'docker-compose up -d'
             }
+        }
         }
     }
 }
