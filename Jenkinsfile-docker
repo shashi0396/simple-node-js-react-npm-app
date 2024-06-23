@@ -4,8 +4,10 @@ pipeline {
     stages {
         stage('Pull and Build Images') {
             steps {
-                sh 'docker-compose pull'
-                sh 'docker-compose build'
+                dir('docker-compose.yml') {
+                    sh 'docker-compose pull'
+                    sh 'docker-compose build'
+                }
             }
         }
     }
